@@ -1,4 +1,4 @@
-# 🕸️ Escape The Web
+# 🕸️ Escape The Web de Luc Houvrard
 
 Un mini-jeu d'escape game développé en JavaScript avec une approche TDD (Test-Driven Development). Le joueur doit résoudre trois énigmes pour s'échapper du web !
 
