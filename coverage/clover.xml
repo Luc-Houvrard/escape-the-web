@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1748332603951" clover="3.2.0">
+  <project timestamp="1748332603952" name="All files">
+    <metrics statements="35" coveredstatements="35" conditionals="28" coveredconditionals="27" methods="9" coveredmethods="9" elements="72" coveredelements="71" complexity="0" loc="35" ncloc="35" packages="1" files="1" classes="1"/>
+    <file name="game.js" path="C:\Users\lucho\Desktop\escape the web\escape-the-web\src\game.js">
+      <metrics statements="35" coveredstatements="35" conditionals="28" coveredconditionals="27" methods="9" coveredmethods="9"/>
+      <line num="4" count="30" type="stmt"/>
+      <line num="5" count="30" type="stmt"/>
+      <line num="6" count="30" type="stmt"/>
+      <line num="14" count="6" type="cond" truecount="4" falsecount="0"/>
+      <line num="15" count="3" type="stmt"/>
+      <line num="18" count="3" type="cond" truecount="2" falsecount="0"/>
+      <line num="19" count="2" type="stmt"/>
+      <line num="22" count="1" type="stmt"/>
+      <line num="26" count="8" type="cond" truecount="4" falsecount="0"/>
+      <line num="27" count="3" type="stmt"/>
+      <line num="30" count="5" type="cond" truecount="2" falsecount="0"/>
+      <line num="31" count="4" type="stmt"/>
+      <line num="34" count="1" type="stmt"/>
+      <line num="38" count="24" type="cond" truecount="4" falsecount="0"/>
+      <line num="39" count="22" type="stmt"/>
+      <line num="40" count="22" type="stmt"/>
+      <line num="42" count="2" type="stmt"/>
+      <line num="46" count="1" type="stmt"/>
+      <line num="50" count="4" type="cond" truecount="2" falsecount="0"/>
+      <line num="51" count="1" type="stmt"/>
+      <line num="54" count="3" type="cond" truecount="2" falsecount="0"/>
+      <line num="55" count="1" type="stmt"/>
+      <line num="58" count="2" type="stmt"/>
+      <line num="59" count="5" type="stmt"/>
+      <line num="61" count="2" type="cond" truecount="2" falsecount="0"/>
+      <line num="62" count="1" type="stmt"/>
+      <line num="65" count="1" type="stmt"/>
+      <line num="69" count="3" type="cond" truecount="2" falsecount="0"/>
+      <line num="70" count="2" type="stmt"/>
+      <line num="71" count="2" type="stmt"/>
+      <line num="73" count="1" type="stmt"/>
+      <line num="77" count="1" type="stmt"/>
+      <line num="78" count="1" type="stmt"/>
+      <line num="83" count="1" type="cond" truecount="3" falsecount="1"/>
+      <line num="84" count="1" type="stmt"/>
+    </file>
+  </project>
+</coverage>

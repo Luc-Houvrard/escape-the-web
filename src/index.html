@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escape The Web</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        .game-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .puzzle-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .puzzle-container:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+        }
+
+        h2 {
+            margin-bottom: 15px;
+            color: #f0f0f0;
+        }
+
+        .puzzle-description {
+            margin-bottom: 20px;
+            line-height: 1.6;
+            color: #e0e0e0;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus {
+            outline: none;
+            border-color: #64b5f6;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 3px rgba(100, 181, 246, 0.2);
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        button {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px 0 rgba(102, 126, 234, 0.4);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px 0 rgba(102, 126, 234, 0.6);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .color-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .color-button {
+            padding: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .color-button:hover {
+            transform: scale(1.05);
+        }
+
+        .color-button.selected {
+            border-width: 4px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .red { background-color: #ff6b6b; }
+        .blue { background-color: #4dabf7; }
+        .green { background-color: #51cf66; }
+        .yellow { background-color: #ffd93d; }
+
+        .message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .success {
+            background: rgba(81, 207, 102, 0.2);
+            border: 2px solid #51cf66;
+            color: #51cf66;
+        }
+
+        .error {
+            background: rgba(255, 107, 107, 0.2);
+            border: 2px solid #ff6b6b;
+            color: #ff6b6b;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .hint {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-style: italic;
+            color: #ffd93d;
+        }
+
+        .victory {
+            text-align: center;
+            padding: 40px;
+            animation: victory 1s ease-in-out;
+        }
+
+        @keyframes victory {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .victory h2 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: #51cf66;
+        }
+
+        .selected-order {
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            min-height: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>🕸️ Escape The Web 🕸️</h1>
+        
+        <!-- Puzzle 1: Le coffre-fort -->
+        <div id="puzzle1" class="puzzle-container">
+            <h2>Énigme 1 : Le Coffre-fort</h2>
+            <p class="puzzle-description">
+                Un coffre-fort bloque votre chemin. Pour l'ouvrir, trouvez la combinaison secrète.
+                <br>Indice : La réponse se trouve dans cette équation : 1 + 2 + 3 + 4 = ?
+            </p>
+            <input type="text" id="safecode" placeholder="Entrez le code" aria-label="Code du coffre-fort">
+            <button onclick="checkSafeCode()">Valider</button>
+            <div id="message1" class="message hidden"></div>
+        </div>
+
+        <!-- Puzzle 2: Le mot caché -->
+        <div id="puzzle2" class="puzzle-container hidden">
+            <h2>Énigme 2 : Le Mot Caché</h2>
+            <p class="puzzle-description">
+                Un mot de passe est nécessaire pour continuer. Regardez attentivement...
+            </p>
+            <div class="hint">Le mot que vous cherchez est dissimulé ici : 
+                Les <strong>W</strong>ebsites sont des <strong>E</strong>spaces <strong>B</strong>ien organisés.
+            </div>
+            <input type="password" id="password" placeholder="Entrez le mot de passe" aria-label="Mot de passe">
+            <button onclick="checkPassword()">Valider</button>
+            <div id="message2" class="message hidden"></div>
+        </div>
+
+        <!-- Puzzle 3: L'ordre des couleurs -->
+        <div id="puzzle3" class="puzzle-container hidden">
+            <h2>Énigme 3 : L'Ordre des Couleurs</h2>
+            <p class="puzzle-description">
+                Sélectionnez les couleurs dans le bon ordre pour vous échapper !
+                <br>Indice : Suivez l'ordre du spectre visible (🔴🟡🟢🔵)
+            </p>
+            <div class="color-buttons">
+                <div class="color-button blue" onclick="selectColor('blue')">Bleu</div>
+                <div class="color-button red" onclick="selectColor('red')">Rouge</div>
+                <div class="color-button yellow" onclick="selectColor('yellow')">Jaune</div>
+                <div class="color-button green" onclick="selectColor('green')">Vert</div>
+            </div>
+            <div class="selected-order">
+                Ordre sélectionné : <span id="colorOrder"></span>
+            </div>
+            <button onclick="checkColorOrder()">Valider l'ordre</button>
+            <button onclick="resetColors()" style="margin-left: 10px;">Réinitialiser</button>
+            <div id="message3" class="message hidden"></div>
+        </div>
+
+        <!-- Victory Screen -->
+        <div id="victory" class="victory hidden">
+            <h2>🎉 Félicitations ! 🎉</h2>
+            <p>Vous avez réussi à vous échapper du Web !</p>
+            <p>Toutes les énigmes ont été résolues avec succès.</p>
+            <button onclick="resetGame()">Rejouer</button>
+        </div>
+    </div>
+
+    <script>
+        // Game state
+        let selectedColors = [];
+        let currentPuzzle = 1;
+
+        // Puzzle 1: Safe code validation
+        function checkSafeCode() {
+            const input = document.getElementById('safecode');
+            const message = document.getElementById('message1');
+            const code = input.value.trim();
+            
+            message.classList.remove('hidden', 'success', 'error');
+            
+            if (code === '') {
+                message.textContent = 'Veuillez entrer un code';
+                message.classList.add('error');
+                return false;
+            }
+            
+            if (code === '10') {
+                message.textContent = 'Correct ! Le coffre s\'ouvre...';
+                message.classList.add('success');
+                setTimeout(() => {
+                    document.getElementById('puzzle1').classList.add('hidden');
+                    document.getElementById('puzzle2').classList.remove('hidden');
+                    currentPuzzle = 2;
+                }, 1500);
+                return true;
+            } else {
+                message.textContent = 'Code incorrect. Réessayez !';
+                message.classList.add('error');
+                return false;
+            }
+        }
+
+        // Puzzle 2: Password validation
+        function checkPassword() {
+            const input = document.getElementById('password');
+            const message = document.getElementById('message2');
+            const password = input.value.trim().toUpperCase();
+            
+            message.classList.remove('hidden', 'success', 'error');
+            
+            if (password === '') {
+                message.textContent = 'Veuillez entrer un mot de passe';
+                message.classList.add('error');
+                return false;
+            }
+            
+            if (password === 'WEB') {
+                message.textContent = 'Excellent ! Vous avez trouvé le mot caché !';
+                message.classList.add('success');
+                setTimeout(() => {
+                    document.getElementById('puzzle2').classList.add('hidden');
+                    document.getElementById('puzzle3').classList.remove('hidden');
+                    currentPuzzle = 3;
+                }, 1500);
+                return true;
+            } else {
+                message.textContent = 'Mot de passe incorrect. Regardez bien les indices...';
+                message.classList.add('error');
+                return false;
+            }
+        }
+
+        // Puzzle 3: Color order
+        function selectColor(color) {
+            if (selectedColors.length < 4 && !selectedColors.includes(color)) {
+                selectedColors.push(color);
+                updateColorDisplay();
+                
+                // Add visual feedback
+                document.querySelectorAll('.color-button').forEach(btn => {
+                    if (btn.classList.contains(color)) {
+                        btn.classList.add('selected');
+                    }
+                });
+            }
+        }
+
+        function updateColorDisplay() {
+            const display = document.getElementById('colorOrder');
+            const colorEmojis = {
+                'red': '🔴',
+                'yellow': '🟡',
+                'green': '🟢',
+                'blue': '🔵'
+            };
+            display.textContent = selectedColors.map(c => colorEmojis[c]).join(' ');
+        }
+
+        function resetColors() {
+            selectedColors = [];
+            updateColorDisplay();
+            document.querySelectorAll('.color-button').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            const message = document.getElementById('message3');
+            message.classList.add('hidden');
+        }
+
+        function checkColorOrder() {
+            const message = document.getElementById('message3');
+            const correctOrder = ['red', 'yellow', 'green', 'blue'];
+            
+            message.classList.remove('hidden', 'success', 'error');
+            
+            if (selectedColors.length === 0) {
+                message.textContent = 'Veuillez sélectionner des couleurs';
+                message.classList.add('error');
+                return false;
+            }
+            
+            if (selectedColors.length !== 4) {
+                message.textContent = 'Sélectionnez les 4 couleurs dans l\'ordre';
+                message.classList.add('error');
+                return false;
+            }
+            
+            const isCorrect = selectedColors.every((color, index) => color === correctOrder[index]);
+            
+            if (isCorrect) {
+                message.textContent = 'Parfait ! Vous avez trouvé le bon ordre !';
+                message.classList.add('success');
+                setTimeout(() => {
+                    document.getElementById('puzzle3').classList.add('hidden');
+                    document.getElementById('victory').classList.remove('hidden');
+                }, 1500);
+                return true;
+            } else {
+                message.textContent = 'Ordre incorrect. Pensez au spectre visible...';
+                message.classList.add('error');
+                return false;
+            }
+        }
+
+        function resetGame() {
+            // Reset all puzzles
+            document.getElementById('puzzle1').classList.remove('hidden');
+            document.getElementById('puzzle2').classList.add('hidden');
+            document.getElementById('puzzle3').classList.add('hidden');
+            document.getElementById('victory').classList.add('hidden');
+            
+            // Clear inputs
+            document.getElementById('safecode').value = '';
+            document.getElementById('password').value = '';
+            
+            // Reset colors
+            resetColors();
+            
+            // Hide messages
+            document.querySelectorAll('.message').forEach(msg => {
+                msg.classList.add('hidden');
+            });
+            
+            currentPuzzle = 1;
+        }
+
+        // Add Enter key support
+        document.getElementById('safecode').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') checkSafeCode();
+        });
+        
+        document.getElementById('password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') checkPassword();
+        });
+    </script>
+</body>
+</html>
